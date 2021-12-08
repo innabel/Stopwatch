@@ -6,8 +6,8 @@ import javax.swing.*;
 public class Stopwatch implements ActionListener {
 
     JFrame frame = new JFrame();
-    JButton startButton = new JButton("START");
-    JButton resetButton = new JButton("RESET");
+    JButton startButton = new JButton("start");
+    JButton resetButton = new JButton("reset");
     JLabel timeLabel = new JLabel();
     // stores milliseconds
     int elapsedTime = 0;
@@ -40,6 +40,7 @@ public class Stopwatch implements ActionListener {
     });
 
     Stopwatch() {
+        // TODO later add Graphics and change the color of the stopwatch
 
         timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
         timeLabel.setBounds(100, 100, 200, 100);
@@ -49,12 +50,12 @@ public class Stopwatch implements ActionListener {
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
         startButton.setBounds(100, 200, 100, 50);
-        startButton.setFont(new Font("Freestyle Script", Font.PLAIN, 20));
+        startButton.setFont(new Font("Freestyle Script", Font.PLAIN, 40));
         startButton.setFocusable(false);
         startButton.addActionListener(this);
 
         resetButton.setBounds(200, 200, 100, 50);
-        resetButton.setFont(new Font("Freestyle Script", Font.PLAIN, 20));
+        resetButton.setFont(new Font("Freestyle Script", Font.PLAIN, 40));
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
@@ -76,13 +77,19 @@ public class Stopwatch implements ActionListener {
             start();
             if(started==false) {
                 started=true;
-                startButton.setText("STOP");
+                startButton.setText("stop");
                 start();
             } else {
                 started=false;
-                startButton.setText("START");
+                startButton.setText("start");
                 stop();
             }
+        }
+
+        if(e.getSource()==resetButton) {
+            started=false;
+            startButton.setText("start");
+            reset();
         }
     }
 
@@ -96,5 +103,15 @@ public class Stopwatch implements ActionListener {
 
     void reset() {
 
+        timer.stop();
+        elapsedTime = 0;
+        seconds = 0;
+        hours = 0;
+
+        // updating the data visually
+        seconds_string = String.format("%02d", seconds);
+        minutes_string = String.format("%02d", minutes);
+        hours_string = String.format("%02d", hours);
+        timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
     }
 }
